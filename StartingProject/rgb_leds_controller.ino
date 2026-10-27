@@ -1,11 +1,9 @@
 #include <LiquidCrystal_I2C.h>
-
+LiquidCrystal_I2C lcd(0x27,16,2);
 
 int redPin = 20;
 int bluePin = 19;
 int greenPin = 18;
-
-LiquidCrystal_I2C lcd(0x27,16,2);
 
 int redPot = 11;
 int greenPot = 12;
@@ -37,13 +35,18 @@ void loop() {
   redVal = analogRead(redPot) / 8191.0 * 255.0;
   greenVal = analogRead(greenPot) / 8191.0 * 255.0;
   blueVal = analogRead(bluePot) / 8191.0 * 255.0;
-  statement1 = "R: " + String(redVal) + " G: " + String(greenVal);
-  statement2 = "B: " + String(blueVal);
-  analogWrite(redPin, redVal);
-  analogWrite(greenPin, greenVal);
-  analogWrite(bluePin, blueVal);
-  printLCD(statement1, statement2, 150);
-  delay(15);
+  if (redVal != redOrig || greenOrig != greenVal || blueOrig != blueVal){
+    redOrig = redVal;
+    greenOrig = greenVal;
+    blueOrig = blueVal;
+    statement1 = "R: " + String(redVal) + " G: " + String(greenVal);
+    statement2 = "B: " + String(blueVal);
+    analogWrite(redPin, redVal);
+    analogWrite(greenPin, greenVal);
+    analogWrite(bluePin, blueVal);
+    printLCD(statement1, statement2, 10);
+  }
+  delay(20);
 }
 
 void printLCD(String statement1, String statement2, int delayTime) {
