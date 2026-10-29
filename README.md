@@ -1,2 +1,2 @@
 # ESP32
-This repository contains projects developed using ESP32
+This repository contains projects that use the ESP32 development board. However, the programs are developed using Arduino IDE.
