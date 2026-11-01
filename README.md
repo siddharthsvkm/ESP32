@@ -4,25 +4,13 @@ Current Status: Incomplete (Started Early October)
 This repository contains projects that use the ESP32 development board (SunFounder ESP32 Starter Kit). However, the programs are developed using Arduino IDE.
 
 Components:
-- Arduino MEGA Controller Board
-- Breadboard
-- Jumper Wires
+- ESP32
 - Resistors
-- LEDS
-- Buzzers (Active/Passive)
-- Potentiometer
-- Photoresistors
 - Buttons
-- Servo Motor
-- Switches
-- LCD Module
-- Joystick
-- Sound Sensor
-- Capacitators
-- Dot Matrix
-- Ultrasonic Sensor
-- Water Level Detection Sensor
-- Digit Display
+- Passive/Active Buzzer
+- Potentiometer
+- 74HC595
+- LEDs
 
 
 ||Project Name|Start Date|Modified Date|Status|
