@@ -45,5 +45,5 @@ Components:
 |Project 1|Alarm Clock|October 29, 2026|October 31, 2026|Creating idea|
 |Project 2|Sensors|October 31, 2026|October 31, 2026|Creating layout|
 |Project 3|||||
-|Project 4|Escape Room|August 10, 2026|October 25, 2026|Adding more challenges|
+||||||
 
