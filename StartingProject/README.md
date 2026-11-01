@@ -1,7 +1,7 @@
 # LED Light Controller
 
 ## Summary
-This project uses 3 potentiometers to change the respective RGB values for a RGB LED.
+This project uses 3 potentiometers to change the respective RGB values for 12 RGB LEDs (the number that I could fit on the top horizontal portion of the breadboard).
 
 Project URL: https://wokwi.com/projects/352338457457890305
 
