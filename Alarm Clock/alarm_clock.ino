@@ -1,17 +1,26 @@
 #include <Keypad.h>
 #include <LiquidCrystal_I2C.h>
+#include <RTClib.h>
 
+RTC_DS1307 rtc;
+LiquidCrystal_I2C lcd(0x27, 20, 4);
 
-int[] alarmStatusLight = {12, 13, 14};
-int[] alarmLight = {10, 11};
+int alarmStatusLight[] = {12, 13, 14};
+int alarmLight[] = {10, 11};
 
 int servoPin = 6;
 int buzzerPin = 48;
 
+char keys[4][4] = {
+  {'1', '2', '3', 'A'},
+  {'4', '5', '6', 'B'},
+  {'7', '8', '9', 'C'},
+  {'*', '0', '#', 'D'}
+};
 int columnPins[] = {18, 8, 3, 46};
 int rowPins[] = {7, 15, 16, 17};
 
-Keypad alarmKeypad = ;
+Keypad alarmKeypad = Keypad(makeKeymap(keys), rowPins, columnPins, 4, 4);
 
 
 void setup() {
@@ -22,10 +31,9 @@ void setup() {
     pinMode(alarmLight[i], OUTPUT);
   }
 
-  lcd.begin(16, 2);
-
-  Serial.begin(115200);
-  Serial.println("Hello, ESP32-S3!");
+  lcd.init();
+  lcd.backlight();
+  printLCD("Alarm Clock", "", 3000, 1);
 }
 
 void loop() {
@@ -37,12 +45,11 @@ void printTimeDate() {
 
 }
 
-void printLCD(String statement1, String statement2, int delayTime) {
+void printLCD(String statement1, String statement2, int delayTime, int mode) {
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print(statement1);
   lcd.setCursor(1, 0);
   lcd.print(statement2);
-
   delay(delayTime);
 }
