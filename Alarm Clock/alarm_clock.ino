@@ -11,16 +11,17 @@ int alarmLight[] = {10, 11};
 int servoPin = 6;
 int buzzerPin = 48;
 
-char keys[4][4] = {
+const int rows = 4, columns = 4;
+char keys[rows][columns] = {
   {'1', '2', '3', 'A'},
   {'4', '5', '6', 'B'},
   {'7', '8', '9', 'C'},
   {'*', '0', '#', 'D'}
 };
-int columnPins[] = {18, 8, 3, 46};
-int rowPins[] = {7, 15, 16, 17};
+uint8_t columnPins[columns] = {18, 8, 3, 46};
+uint8_t rowPins[rows] = {7, 15, 16, 17};
 
-Keypad alarmKeypad = Keypad(makeKeymap(keys), rowPins, columnPins, 4, 4);
+Keypad alarmKeypad = Keypad(makeKeymap(keys), rowPins, columnPins, rows, columns);
 
 
 void setup() {
