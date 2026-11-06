@@ -1,7 +1,7 @@
 # ESP32
 Current Status: Incomplete (Started Early October)
 
-This repository contains projects that use the ESP32 development board (SunFounder ESP32 Starter Kit). However, the programs are developed using Arduino IDE.
+This repository contains projects that use the ESP32 development board (SunFounder ESP32 Starter Kit). However, the programs are developed using Arduino IDE and wokwi (siddharthsvkm).
 
 Components:
 - ESP32
