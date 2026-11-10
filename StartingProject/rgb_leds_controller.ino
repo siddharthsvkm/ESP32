@@ -1,3 +1,8 @@
+// Siddharth Sivakumar
+// October 24, 2026
+// ESP32
+/* This is my first program using the ESP32 development board */
+
 #include <LiquidCrystal_I2C.h>
 LiquidCrystal_I2C lcd(0x27,16,2);
 
