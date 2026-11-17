@@ -42,8 +42,8 @@ Components:
 
 ||Project Name|Start Date|Modified Date|Status|
 |:---|:---|:---|:---|:---|
-|Project 1|Alarm Clock|October 29, 2026|October 31, 2026|Creating idea|
-|Project 2|Sensors|October 31, 2026|October 31, 2026|Creating layout|
+|Project 1|Alarm Clock|October 29, 2026|November 7, 2026|Creating idea|
+|Project 2|Sensors|October 31, 2026|November 2, 2026|Creating layout|
 |Project 3|||||
 ||||||
 
