@@ -1,14 +1,14 @@
 #include <Keypad.h>
 #include <LiquidCrystal_I2C.h>
 #include <RTClib.h>
+#include <Wire.h>
 
-RTC_DS1307 rtc;
-LiquidCrystal_I2C lcd(0x27, 20, 4);
+RTC_DS1307 myRTC;
+LiquidCrystal_I2C lcd(0x27, 20, 2);
 
-int alarmStatusLight[] = {12, 13, 14};
+int alarmStatus[] = {12, 13, 14};
 int alarmLight[] = {10, 11};
 
-int servoPin = 6;
 int buzzerPin = 48;
 
 const int rows = 4, columns = 4;
@@ -25,28 +25,76 @@ Keypad alarmKeypad = Keypad(makeKeymap(keys), rowPins, columnPins, rows, columns
 
 
 void setup() {
-  for (int i = 0; i < (sizeof(alarmStatusLight) / sizeof(alarmStatusLight[0])); i++) {
-    pinMode(alarmStatusLight[i], OUTPUT);
+  for (int i = 0; i < (sizeof(alarmStatus) / sizeof(alarmStatus[0])); i++) {
+    pinMode(alarmStatus[i], OUTPUT);
   }
   for (int i = 0; i < (sizeof(alarmLight) / sizeof(alarmLight[0])); i++) {
     pinMode(alarmLight[i], OUTPUT);
   }
 
+  Wire.begin();
+  // Wire1.begin(47,21);
+  myRTC.begin();
+
+
+  
   lcd.init();
   lcd.backlight();
-  printLCD("Alarm Clock", "", 3000, 1);
+  printLCD("  Alarm Clock  ", "", 3000);
+
+
 }
 
 void loop() {
-  delay(10); // this speeds up the simulation
+  printTimeDate();
 }
 
 
 void printTimeDate() {
+  DateTime myClock = myRTC.now();
+  String timeStatement = "    ";
+  String dateStatement = "    ";
 
+  int hour = myClock.hour();
+  if (hour < 10) {
+    timeStatement += "0";
+  }
+  timeStatement += String(hour) + ":";
+
+  int minute = myClock.minute();
+  if (minute < 10) {
+    timeStatement += "0";
+  }
+  timeStatement += String(minute) + ":";
+
+  int second = myClock.second();
+  if (second < 10) {
+    timeStatement += "0";
+  }
+  timeStatement += String(second) + ":";
+
+  int month = myClock.month();
+  if (month < 10) {
+    dateStatement += "0";
+  }
+  dateStatement += String(month) + "/";
+
+  int day = myClock.day();
+  if (day < 10) {
+    dateStatement += "0";
+  }
+  dateStatement += String(day) + "/";
+
+  int year = myClock.year();
+  dateStatement += String(year);
+  
+
+  printLCD(dateStatement, timeStatement, 900);
+  // Serial.print(dateStatement);
+  // Serial.print(timeStatement);
 }
 
-void printLCD(String statement1, String statement2, int delayTime, int mode) {
+void printLCD(String statement1, String statement2, int delayTime) {
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print(statement1);
@@ -54,3 +102,4 @@ void printLCD(String statement1, String statement2, int delayTime, int mode) {
   lcd.print(statement2);
   delay(delayTime);
 }
+
