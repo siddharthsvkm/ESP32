@@ -1,15 +1,16 @@
-#include <Keypad.h>
-#include <LiquidCrystal_I2C.h>
 #include <RTClib.h>
+#include <LiquidCrystal_I2C.h>
 #include <Wire.h>
+#include <Keypad.h>
 
+
+LiquidCrystal_I2C myLCD(0x27, 16, 2);
 RTC_DS1307 myRTC;
-LiquidCrystal_I2C lcd(0x27, 20, 2);
 
-int alarmStatus[] = {12, 13, 14};
-int alarmLight[] = {10, 11};
+int alarmStatus[] = {14, 13, 12};
+int alarmLight[] = {15, 16};
 
-int buzzerPin = 48;
+int buzzerPin = 17;
 
 const int rows = 4, columns = 4;
 char keys[rows][columns] = {
@@ -18,10 +19,11 @@ char keys[rows][columns] = {
   {'7', '8', '9', 'C'},
   {'*', '0', '#', 'D'}
 };
-uint8_t columnPins[columns] = {18, 8, 3, 46};
-uint8_t rowPins[rows] = {7, 15, 16, 17};
+uint8_t columnPins[columns] = {21, 20, 19, 18};
+uint8_t rowPins[rows] = {35, 34, 33, 26};
 
 Keypad alarmKeypad = Keypad(makeKeymap(keys), rowPins, columnPins, rows, columns);
+
 
 
 void setup() {
@@ -32,74 +34,54 @@ void setup() {
     pinMode(alarmLight[i], OUTPUT);
   }
 
-  Wire.begin();
-  // Wire1.begin(47,21);
+
+  Wire.begin(8,9);
   myRTC.begin();
+  myLCD.init();
+  myLCD.backlight();
 
-
-  
-  lcd.init();
-  lcd.backlight();
-  printLCD("  Alarm Clock  ", "", 3000);
-
-
+  printLCD("  Alarm Clock  ", "   Prototype", 3000);
 }
 
 void loop() {
-  printTimeDate();
+  //printTimeDate();
 }
-
 
 void printTimeDate() {
   DateTime myClock = myRTC.now();
-  String timeStatement = "    ";
-  String dateStatement = "    ";
+  int prevSec = -1;
 
-  int hour = myClock.hour();
-  if (hour < 10) {
-    timeStatement += "0";
+  char dateStatement[17];
+  char timeStatement[17];
+
+  while (true) {
+    myClock = myRTC.now();
+
+    if (myClock.second() != prevSec) {
+
+      snprintf(dateStatement, sizeof(dateStatement), "%02d/%02d/%02d", myClock.month(), myClock.day(), myClock.year());
+      snprintf(timeStatement, sizeof(timeStatement), "%02d:%02d:%02d", myClock.hour(), myClock.minute(), myClock.second());
+      printLCD(dateStatement, timeStatement, 45);
+
+    } else {
+      delay(45);
+    }
   }
-  timeStatement += String(hour) + ":";
 
-  int minute = myClock.minute();
-  if (minute < 10) {
-    timeStatement += "0";
-  }
-  timeStatement += String(minute) + ":";
 
-  int second = myClock.second();
-  if (second < 10) {
-    timeStatement += "0";
-  }
-  timeStatement += String(second) + ":";
 
-  int month = myClock.month();
-  if (month < 10) {
-    dateStatement += "0";
-  }
-  dateStatement += String(month) + "/";
-
-  int day = myClock.day();
-  if (day < 10) {
-    dateStatement += "0";
-  }
-  dateStatement += String(day) + "/";
-
-  int year = myClock.year();
-  dateStatement += String(year);
   
-
-  printLCD(dateStatement, timeStatement, 900);
-  // Serial.print(dateStatement);
-  // Serial.print(timeStatement);
 }
+
+
+
+
 
 void printLCD(String statement1, String statement2, int delayTime) {
-  lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print(statement1);
-  lcd.setCursor(1, 0);
-  lcd.print(statement2);
+  myLCD.clear();
+  myLCD.setCursor(0, 0);
+  myLCD.print(statement1);
+  myLCD.setCursor(0, 1);
+  myLCD.print(statement2);
   delay(delayTime);
 }
-
