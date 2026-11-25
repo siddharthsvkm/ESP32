@@ -44,11 +44,12 @@ void setup() {
 }
 
 void loop() {
-  //printTimeDate();
+  printTimeDate();
 }
 
 void printTimeDate() {
   DateTime myClock = myRTC.now();
+  char daysOfTheWeek[7][12] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
   int prevSec = -1;
 
   char dateStatement[17];
@@ -61,21 +62,26 @@ void printTimeDate() {
 
       snprintf(dateStatement, sizeof(dateStatement), "%02d/%02d/%02d", myClock.month(), myClock.day(), myClock.year());
       snprintf(timeStatement, sizeof(timeStatement), "%02d:%02d:%02d", myClock.hour(), myClock.minute(), myClock.second());
-      printLCD(dateStatement, timeStatement, 45);
+      
+      myLCD.setCursor(0, 0);
+      myLCD.print("    ");
+      myLCD.print(timeStatement);
+      myLCD.print("    ");
+      
 
+      myLCD.setCursor(0, 1);
+      myLCD.print(" ");
+      myLCD.print(daysOfTheWeek[myClock.dayOfTheWeek()]);
+      myLCD.print(" ");
+      myLCD.print(dateStatement);
+      
+
+      prevSec = myClock.second();
     } else {
       delay(45);
     }
   }
-
-
-
-  
 }
-
-
-
-
 
 void printLCD(String statement1, String statement2, int delayTime) {
   myLCD.clear();
